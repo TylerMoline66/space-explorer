@@ -11,10 +11,6 @@ function Planet({ position, color, onPlanetClick }) {
   });
 
   return (
-    // <Sphere args={[size, 30, 30]} position={position} ref={planetRef}>
-    //   <meshStandardMaterial color={color} />
-    // </Sphere>
-
     <mesh
       ref={planetRef}
       position={position}

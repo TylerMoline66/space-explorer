@@ -1,17 +1,38 @@
-import React, { useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
-import Planet from "./Planet1";
+import React, { useRef, useEffect } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
 
 function CameraController({ targetPlanet }) {
   const { camera } = useThree();
+  const targetRef = useRef(new THREE.Vector3());
+  const distance = 5; // Desired distance from the planet
+  const cameraPosition = useRef(camera.position.clone()); // Save the initial camera position
 
   useFrame(() => {
     if (targetPlanet) {
-      camera.position.lerp(targetPlanet, 0.05); // Smoothly move the camera
-      camera.lookAt(targetPlanet); // Ensure the camera looks at the planet
+      targetRef.current.set(...targetPlanet);
+
+      // Compute the new camera position
+      const direction = new THREE.Vector3()
+        .subVectors(camera.position, targetRef.current)
+        .normalize();
+      const newCameraPosition = targetRef.current
+        .clone()
+        .add(direction.multiplyScalar(distance));
+
+      // Smoothly move the camera to the new position
+      camera.position.lerp(newCameraPosition, 0.1);
+
+      // Update the camera's lookAt position
+      camera.lookAt(targetRef.current);
     }
   });
+
+  useEffect(() => {
+    if (!targetPlanet) {
+      camera.position.copy(cameraPosition.current); // Reset camera position if no target
+    }
+  }, [targetPlanet, camera]);
 
   return null; // No visual output, just logic to control the camera
 }

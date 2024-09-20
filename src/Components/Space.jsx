@@ -1,11 +1,18 @@
 import { useState } from "react";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls, Stars, Text } from "@react-three/drei";
 
 import CameraController from "./CamerControl";
 
 import Planet from "./Planet1";
+
+import image from "../assets/2k_earth_daymap.jpeg";
+import tw from "../assets/tw.png";
+import res from "../assets/res.png";
+import tsqd from "../assets/tsqd1.png";
+// import tsqd1 from "../assets/tsqd1.png";
+import ubb from "../assets/ubb.png";
 
 function SpaceScene() {
   const [targetPlanet, setTargetPlanet] = useState(null); // Track clicked planet
@@ -16,21 +23,27 @@ function SpaceScene() {
 
   return (
     <Canvas className="space">
-      {/* Add an interactive camera */}
       <OrbitControls />
-      {/* Add a sky full of stars */}
       <Stars />
-      {/* Add lighting to the scene */}
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
 
-      {/* Camera control logic */}
       <CameraController targetPlanet={targetPlanet} />
+
+      <Text
+        position={[-5, 2, 0]}
+        fontSize={0.25}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+      >
+        Welcome to my portfolio!
+      </Text>
 
       {/* Central Planet */}
       <Planet
         position={[0, 0, 0]}
-        color="grey"
+        planetTexture={image}
         onPlanetClick={() => handlePlanetClick([0, 0, 0])}
         label="About Me!"
       />
@@ -38,7 +51,7 @@ function SpaceScene() {
       {/* Planet on the Left */}
       <Planet
         position={[-5, 0, -5]}
-        color="salmon"
+        planetTexture={ubb}
         onPlanetClick={() => handlePlanetClick([-5, 0, -5])}
         label="Utah Basement Builders"
       />
@@ -46,35 +59,35 @@ function SpaceScene() {
       {/* Planet on the Right */}
       <Planet
         position={[5, 0, -5]}
-        color="pink"
+        planetTexture={tsqd}
         onPlanetClick={() => handlePlanetClick([5, 0, -5])}
         label="Tsquared Construction"
       />
 
       <Planet
         position={[3, 4, -5]}
-        color="red"
+        planetTexture={res}
         onPlanetClick={() => handlePlanetClick([3, 4, -5])}
         label="Resonance"
       />
 
       <Planet
         position={[-3, 4, -5]}
-        color="blue"
+        planetTexture={tw}
         onPlanetClick={() => handlePlanetClick([-3, 4, -5])}
         label="Taskwize"
       />
 
       <Planet
         position={[-3, -4, -5]}
-        color="coral"
+        planetTexture={image}
         onPlanetClick={() => handlePlanetClick([-3, -4, -5])}
         label="Earth"
       />
 
       <Planet
         position={[3, -4, -5]}
-        color="purple"
+        planetTexture={image}
         onPlanetClick={() => handlePlanetClick([3, -4, -5])}
         label="Earth"
       />

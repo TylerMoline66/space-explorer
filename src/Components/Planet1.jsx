@@ -1,34 +1,44 @@
 import { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import { Sphere, Text } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import { Text, useTexture } from "@react-three/drei";
 
-function Planet({ position, color, onPlanetClick, label }) {
+function Planet({ position, planetTexture, onPlanetClick, label }) {
   const planetRef = useRef();
+  const textRef = useRef();
+  const { camera } = useThree(); // Get camera reference
+  const texture = useTexture(planetTexture);
 
-  // Make the planet rotate continuously
+  // Rotate the planet but keep the text static
   useFrame(() => {
-    planetRef.current.rotation.y += 0.01;
+    // Rotate only the planet mesh
+    planetRef.current.rotation.y += 0.002;
+
+    // Ensure text always faces the camera (billboard effect)
+    if (textRef.current) {
+      textRef.current.quaternion.copy(camera.quaternion);
+    }
   });
 
   return (
-    <mesh
-      ref={planetRef}
-      position={position}
-      onClick={onPlanetClick} // Detect click events
-    >
-      <sphereGeometry args={[1, 32, 32]} />
-      <meshStandardMaterial color={color} />
+    <group position={position}>
+      {/* Rotating Planet */}
+      <mesh ref={planetRef} onClick={onPlanetClick}>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshStandardMaterial map={texture} />
+      </mesh>
 
+      {/* Static Text above the planet */}
       <Text
+        ref={textRef}
         position={[0, 1.5, 0]} // Position above the planet
         fontSize={0.4} // Adjust font size
         color="white" // Text color
         anchorX="center" // Center text horizontally
         anchorY="middle" // Align text vertically
       >
-        {label} {/* Display the label passed as a prop */}
+        {label}
       </Text>
-    </mesh>
+    </group>
   );
 }
 

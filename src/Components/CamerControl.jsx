@@ -60,15 +60,14 @@ function CameraController({ targetPlanet }) {
       const distance = camera.position.distanceTo(targetRef.current);
 
       if (distance > 2) {
-        camera.position.add(direction.multiplyScalar(0.05 * distance)); // Move smoothly toward planet
-        camera.lookAt(targetRef.current); // Keep looking at the planet
+        camera.position.add(direction.multiplyScalar(0.05 * distance));
+        camera.lookAt(targetRef.current);
       } else {
-        setIsZooming(false); // Stop zooming when close enough
+        setIsZooming(false);
       }
     }
   });
 
-  // Reset zooming when a new target is selected
   useEffect(() => {
     if (targetPlanet) {
       setIsZooming(true);

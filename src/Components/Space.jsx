@@ -15,10 +15,10 @@ import tsqd from "../assets/tsqd1.png";
 import ubb from "../assets/ubb.png";
 
 function SpaceScene() {
-  const [targetPlanet, setTargetPlanet] = useState(null); // Track clicked planet
+  const [targetPlanet, setTargetPlanet] = useState(null);
 
   const handlePlanetClick = (position) => {
-    setTargetPlanet(position); // Set target position to the clicked planet
+    setTargetPlanet(position);
   };
 
   return (
@@ -40,7 +40,6 @@ function SpaceScene() {
         Welcome to my portfolio!
       </Text>
 
-      {/* Central Planet */}
       <Planet
         position={[0, 0, 0]}
         planetTexture={image}
@@ -48,7 +47,6 @@ function SpaceScene() {
         label="About Me!"
       />
 
-      {/* Planet on the Left */}
       <Planet
         position={[-5, 0, -5]}
         planetTexture={ubb}
@@ -56,7 +54,6 @@ function SpaceScene() {
         label="Utah Basement Builders"
       />
 
-      {/* Planet on the Right */}
       <Planet
         position={[5, 0, -5]}
         planetTexture={tsqd}
@@ -89,7 +86,7 @@ function SpaceScene() {
         position={[3, -4, -5]}
         planetTexture={image}
         onPlanetClick={() => handlePlanetClick([3, -4, -5])}
-        label="Earth"
+        label="Earth?"
       />
     </Canvas>
   );
